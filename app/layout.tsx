@@ -7,13 +7,13 @@ import ErrorBoundary from '@/components/ErrorBoundary'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://industrix.com'),
+  metadataBase: new URL(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'),
   title: {
     default: 'Industrix - Industrial Digital Transformation',
     template: '%s | Industrix'
   },
-  description: 'Transform your industrial operations with smart digital solutions. Specializing in equipment tracking, fuel monitoring, and enterprise integration for agriculture, mining, and logistics.',
-  keywords: ['industrial automation', 'digital transformation', 'equipment tracking', 'fuel monitoring', 'IoT solutions', 'Indonesia', 'agriculture', 'mining', 'logistics'],
+  description: 'Transform your industrial operations with smart digital solutions. Specializing in equipment tracking, resource monitoring, and enterprise integration for agriculture, mining, and logistics.',
+  keywords: ['industrial automation', 'digital transformation', 'equipment tracking', 'resource monitoring', 'IoT solutions', 'Indonesia', 'agriculture', 'mining', 'logistics'],
   authors: [{ name: 'Industrix' }],
   creator: 'Industrix',
   publisher: 'Industrix',
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://industrix.com',
+    url: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000',
     title: 'Industrix - Industrial Digital Transformation',
     description: 'Transform your industrial operations with smart digital solutions for agriculture, mining, and logistics in Indonesia.',
     siteName: 'Industrix',
@@ -64,6 +64,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
+      </head>
       <body className={inter.className}>
         <ErrorBoundary>
           <ThemeProvider>

@@ -32,9 +32,8 @@ export default function ThemeProvider({ children }: ThemeProviderProps) {
     if (savedTheme) {
       setIsDarkMode(savedTheme === 'dark')
     } else {
-      // Check system preference
-      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-      setIsDarkMode(systemPrefersDark)
+      // Always default to light mode instead of system preference
+      setIsDarkMode(false)
     }
   }, [])
 

@@ -159,6 +159,17 @@ body {
   50% { box-shadow: 0 0 30px rgba(16, 121, 255, 0.6); }
 }
 
+@keyframes textGlow {
+  0%, 100% { 
+    text-shadow: 0 0 20px rgba(16, 121, 255, 0.3), 0 0 40px rgba(16, 121, 255, 0.1);
+    transform: scale(1);
+  }
+  50% { 
+    text-shadow: 0 0 30px rgba(16, 121, 255, 0.6), 0 0 60px rgba(16, 121, 255, 0.2);
+    transform: scale(1.02);
+  }
+}
+
 .animate-fadeInUp {
   animation: fadeInUp 0.6s ease-out forwards;
 }
@@ -191,6 +202,15 @@ body {
   background: linear-gradient(-45deg, #1079FF, #29C5FF, #F62A3A, #F85B62);
   background-size: 400% 400%;
   animation: gradientShift 3s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.animate-gradient-delayed {
+  background: linear-gradient(-45deg, #F62A3A, #FFFFFF, #F85B62, #FFFFFF);
+  background-size: 400% 400%;
+  animation: gradientShift 3s ease infinite 1.5s;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -261,15 +281,15 @@ body {
 }
 
 .feature-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--industrix-gradient);
   color: white;
-  font-size: 24px;
+  font-size: 32px;
   margin-bottom: 16px;
 }
 
@@ -357,7 +377,7 @@ body {
 
 @media (min-width: 769px) {
   .desktop-menu {
-    display: block;
+    display: flex;
   }
   
   .desktop-only {
@@ -414,6 +434,58 @@ body {
   100% { transform: rotate(360deg); }
 }
 
+/* Coming Soon Button Effects */
+@keyframes shimmer {
+  0%, 100% { 
+    box-shadow: 0 0 5px rgba(255,255,255,0.3);
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(255,255,255,0.6), 0 0 30px rgba(255,255,255,0.4);
+  }
+}
+
+@keyframes shimmerMove {
+  0% { 
+    left: -100%; 
+  }
+  100% { 
+    left: 100%; 
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.02);
+    opacity: 0.9;
+  }
+}
+
+@keyframes fadeOutScale {
+  0% { 
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% { 
+    opacity: 0.3;
+    transform: scale(0.98);
+  }
+}
+
+@keyframes fadeInScale {
+  0% { 
+    opacity: 0.3;
+    transform: scale(0.98);
+  }
+  100% { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 /* Utility Classes */
 .text-gradient {
   background: var(--industrix-gradient);
@@ -440,6 +512,28 @@ body {
 
 .footer-link:hover {
   color: #1079FF !important;
+}
+
+/* Mobile Menu Fixes */
+.ant-menu-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  height: auto !important;
+  line-height: normal !important;
+  padding: 0 !important;
+}
+
+.ant-menu-item:hover {
+  background-color: rgba(16, 121, 255, 0.1) !important;
+}
+
+.ant-menu-item a {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 12px 16px !important;
 }
 
 /* Enhanced Form Styles */
@@ -520,4 +614,127 @@ body {
   background: var(--industrix-blue) !important;
   color: white !important;
   transform: translateY(-2px) !important;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  /* Prevent zoom completely */
+  * {
+    touch-action: manipulation !important;
+  }
+  
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    -webkit-text-size-adjust: 100% !important;
+    -ms-text-size-adjust: 100% !important;
+  }
+  
+  /* Prevent horizontal scroll for all containers */
+  .ant-layout,
+  .ant-layout-content,
+  section,
+  div {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+  
+  /* Prevent zoom on form inputs */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+  
+  /* Navbar mobile adjustments */
+  .ant-layout-header {
+    height: 70px !important;
+    line-height: 70px !important;
+    padding: 0 8px !important;
+  }
+  
+  /* Better spacing for mobile navbar */
+  .mobile-only {
+    padding: 8px !important;
+  }
+  
+  /* Improve mobile button spacing */
+  .ant-space-item {
+    margin-right: 8px !important;
+  }
+  
+  /* Mobile navbar right section */
+  .animate-slideInRight {
+    gap: 8px !important;
+  }
+  
+  /* Mobile contact button positioning */
+  .desktop-only {
+    margin-right: -4px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    font-size: 12px !important;
+    height: 36px !important;
+    min-width: auto !important;
+    line-height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  /* Mobile content spacing */
+  .hero-section {
+    padding-top: 100px !important;
+  }
+  
+  /* Mobile card padding */
+  .ant-card-body {
+    padding: 16px !important;
+  }
+  
+  /* Mobile typography adjustments */
+  .section-title {
+    font-size: clamp(1.8rem, 6vw, 2.5rem) !important;
+  }
+  
+  /* Mobile navbar logo */
+  .animate-slideInLeft span {
+    font-size: 20px !important;
+  }
+  
+  /* Ensure all rows and columns stay within viewport */
+  .ant-row {
+    max-width: 100vw !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  
+  .ant-col {
+    max-width: 100% !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  
+  /* Fix container widths */
+  .hero-bg-pattern {
+    max-width: 100vw !important;
+    overflow: hidden !important;
+  }
+  
+  /* Ensure cards don't exceed viewport */
+  .ant-card {
+    max-width: calc(100vw - 24px) !important;
+    margin: 0 auto !important;
+  }
+  
+  /* Fix space components */
+  .ant-space {
+    max-width: 100% !important;
+    flex-wrap: wrap !important;
+  }
+  
+  /* Ensure buttons don't cause overflow */
+  .btn-gradient,
+  .btn-outline {
+    max-width: calc(100vw - 48px) !important;
+    word-break: break-word !important;
+  }
 }

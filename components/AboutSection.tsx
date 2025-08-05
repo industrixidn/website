@@ -10,26 +10,27 @@ import {
   CheckCircleOutlined,
   StarOutlined
 } from '@ant-design/icons'
+import { useTheme } from '../app/theme/ThemeProvider'
 
 const { Title, Paragraph } = Typography
 
 const stats = [
   {
     icon: <TeamOutlined />,
-    number: '10+',
+    number: '2+',
     label: 'Silicon Valley Veterans',
     description: 'Experienced engineers from top tech companies'
   },
   {
     icon: <GlobalOutlined />,
-    number: '50+',
+    number: '2+',
     label: 'Indonesian Clients',
     description: 'Trusted by leading industrial companies'
   },
   {
     icon: <TrophyOutlined />,
     number: '99%',
-    label: 'System Uptime',
+    label: 'System Reliability',
     description: 'Reliable, enterprise-grade infrastructure'
   },
   {
@@ -47,13 +48,13 @@ const values = [
     icon: <RocketOutlined />
   },
   {
-    title: 'Indonesian Focus',
-    description: 'Deep understanding of local market needs and regulatory requirements',
+    title: 'Local Expertise',
+    description: 'Able to deeply understand local market needs and regulatory requirements',
     icon: <GlobalOutlined />
   },
   {
-    title: 'Proven Expertise',
-    description: 'Silicon Valley experience applied to Indonesian industrial transformation',
+    title: 'Technical Excellence',
+    description: 'Silicon Valley experience applied to localized industrial transformation',
     icon: <StarOutlined />
   },
   {
@@ -64,6 +65,7 @@ const values = [
 ]
 
 export default function AboutSection() {
+  const { isDarkMode } = useTheme()
   return (
     <section id="about" className="section-padding">
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
@@ -79,7 +81,7 @@ export default function AboutSection() {
               companies in heavy industries gain better control, visibility, and efficiency.
             </Paragraph>
             <Paragraph style={{ fontSize: '16px', lineHeight: 1.6, marginBottom: '32px' }}>
-              Our platform supports everything from equipment tracking and fuel monitoring to 
+              Our platform supports everything from equipment tracking and resource monitoring to 
               enterprise resource planning (ERP) and environmental compliance. With a modular 
               approach, we enable industrial businesses to adopt scalable, data-driven tools 
               that align with their operational goals.
@@ -89,6 +91,7 @@ export default function AboutSection() {
                 type="primary" 
                 size="large"
                 className="btn-gradient"
+                onClick={() => document.getElementById('case-studies')?.scrollIntoView({ behavior: 'smooth' })}
                 style={{ height: '48px', paddingLeft: '24px', paddingRight: '24px' }}
               >
                 Learn More
@@ -96,9 +99,10 @@ export default function AboutSection() {
               <Button 
                 size="large"
                 className="btn-outline"
+                onClick={() => document.getElementById('case-studies')?.scrollIntoView({ behavior: 'smooth' })}
                 style={{ height: '48px', paddingLeft: '24px', paddingRight: '24px' }}
               >
-                View Portfolio
+                Case Studies
               </Button>
             </Space>
           </Col>
@@ -155,30 +159,48 @@ export default function AboutSection() {
                   border: 'none',
                   borderRadius: '16px',
                   height: '100%',
-                  background: index % 2 === 0 ? '#f8fafc' : 'white'
+                  background: index % 2 === 0 
+                    ? 'linear-gradient(135deg, rgba(16, 121, 255, 0.05), rgba(41, 197, 255, 0.05))' 
+                    : 'linear-gradient(135deg, rgba(246, 42, 58, 0.05), rgba(248, 91, 98, 0.05))',
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}
                 hoverable
               >
+                <div style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: '4px',
+                  background: index % 2 === 0 
+                    ? 'var(--industrix-gradient)' 
+                    : 'var(--industrix-gradient-red)',
+                  transition: 'height 0.3s ease'
+                }} />
                 <div style={{ 
                   fontSize: '32px', 
-                  color: '#1079FF',
+                  color: index % 2 === 0 ? '#1079FF' : '#F62A3A',
                   marginBottom: '16px'
                 }}>
                   {stat.icon}
                 </div>
                 <Title level={2} style={{ 
-                  color: '#1079FF',
+                  background: index % 2 === 0 ? 'var(--industrix-gradient)' : 'var(--industrix-gradient-red)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
                   marginBottom: '8px',
                   fontSize: '2.5rem'
                 }}>
                   {stat.number}
                 </Title>
-                <Title level={5} style={{ marginBottom: '12px' }}>
+                <Title level={5} style={{ marginBottom: '12px', color: isDarkMode ? '#e2e8f0' : '#1f2937' }}>
                   {stat.label}
                 </Title>
                 <Paragraph style={{ 
                   fontSize: '14px',
-                  color: '#6b7280',
+                  color: isDarkMode ? '#d1d5db' : '#6b7280',
                   margin: 0
                 }}>
                   {stat.description}
@@ -195,7 +217,7 @@ export default function AboutSection() {
           </Title>
           <Paragraph style={{ 
             fontSize: '18px',
-            color: '#6b7280',
+            color: isDarkMode ? '#d1d5db' : '#6b7280',
             maxWidth: '600px',
             margin: '0 auto'
           }}>
@@ -210,34 +232,37 @@ export default function AboutSection() {
                 style={{
                   height: '100%',
                   border: 'none',
-                  borderRadius: '16px',
-                  padding: '16px'
+                  borderRadius: '20px',
+                  padding: '24px',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+                  transition: 'all 0.3s ease'
                 }}
                 hoverable
               >
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
                   <div style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: '12px',
+                    width: '56px',
+                    height: '56px',
+                    borderRadius: '16px',
                     background: index % 2 === 0 ? 'var(--industrix-gradient)' : 'var(--industrix-gradient-red)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     color: 'white',
-                    fontSize: '20px',
-                    flexShrink: 0
+                    fontSize: '24px',
+                    flexShrink: 0,
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
                   }}>
                     {value.icon}
                   </div>
                   <div style={{ flex: 1 }}>
-                    <Title level={4} style={{ marginBottom: '12px' }}>
+                    <Title level={4} style={{ marginBottom: '16px', fontSize: '20px' }}>
                       {value.title}
                     </Title>
                     <Paragraph style={{ 
-                      fontSize: '15px',
-                      lineHeight: 1.6,
-                      color: '#6b7280',
+                      fontSize: '16px',
+                      lineHeight: 1.7,
+                      color: isDarkMode ? '#cbd5e1' : '#6b7280',
                       margin: 0
                     }}>
                       {value.description}
@@ -254,7 +279,7 @@ export default function AboutSection() {
           style={{
             borderRadius: '16px',
             border: 'none',
-            background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+            background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.05) 100%)',
             textAlign: 'center',
             padding: '32px'
           }}
@@ -265,7 +290,7 @@ export default function AboutSection() {
           <Paragraph style={{ 
             fontSize: '18px', 
             marginBottom: '32px',
-            color: '#475569',
+            color: isDarkMode ? '#d1d5db' : '#475569',
             maxWidth: '800px',
             margin: '0 auto 32px'
           }}>
@@ -273,18 +298,42 @@ export default function AboutSection() {
             companies with deep understanding of Indonesian industrial needs. This unique combination 
             enables us to deliver world-class solutions tailored for local markets.
           </Paragraph>
-          <Button 
-            type="primary"
-            size="large"
-            className="btn-gradient"
-            style={{ 
-              height: '48px',
-              paddingLeft: '32px',
-              paddingRight: '32px'
-            }}
-          >
-            Meet Our Team
-          </Button>
+          <Space size="large">
+            <Button 
+              type="primary"
+              size="large"
+              className="btn-gradient"
+              onClick={() => window.open('/team', '_self')}
+              style={{ 
+                height: '48px',
+                paddingLeft: '32px',
+                paddingRight: '32px',
+                background: 'var(--industrix-gradient)',
+                border: 'none',
+                color: 'white',
+                fontWeight: '700',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px'
+              }}
+            >
+              Meet Our Team
+            </Button>
+            <Button 
+              size="large"
+              className="btn-outline"
+              onClick={() => window.open('/careers', '_blank')}
+              style={{ 
+                height: '48px',
+                paddingLeft: '32px',
+                paddingRight: '32px',
+                fontWeight: '700',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px'
+              }}
+            >
+              Join Our Team
+            </Button>
+          </Space>
         </Card>
       </div>
     </section>

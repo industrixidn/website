@@ -1,17 +1,13 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Row, Col, Card, Typography, Form, Input, Button, Select, message, Space } from 'antd'
 import { 
   MailOutlined, 
-  PhoneOutlined, 
   EnvironmentOutlined, 
-  SendOutlined,
-  CheckCircleOutlined,
-  LinkedinOutlined,
-  TwitterOutlined,
-  GithubOutlined
+  SendOutlined
 } from '@ant-design/icons'
+import emailjs from '@emailjs/browser'
 import { useTheme } from '../app/theme/ThemeProvider'
 
 const { Title, Paragraph } = Typography
@@ -21,6 +17,7 @@ const { Option } = Select
 interface ContactFormData {
   name: string
   email: string
+  phone: string
   company: string
   industry: string
   message: string
@@ -31,19 +28,160 @@ export default function ContactSection() {
   const [loading, setLoading] = useState(false)
   const { isDarkMode } = useTheme()
 
+  // Initialize EmailJS when component mounts
+  useEffect(() => {
+    emailjs.init('uLHUv1UdTBP0eJ57R')
+    console.log('EmailJS initialized for contact form')
+  }, [])
+
   const handleSubmit = async (values: ContactFormData) => {
     setLoading(true)
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      console.log('Starting contact form submission...')
+      console.log('Contact form values:', values)
       
-      // Here you would typically send the data to your backend
-      console.log('Contact form submitted:', values)
+      // EmailJS configuration - using INBOUND template
+      const serviceId = 'service_q60i136'
+      const inboundTemplateId = 'template_uaamyte' // Replace with your inbound template ID
       
-      message.success('Thank you for your message! We&apos;ll get back to you soon.')
-      form.resetFields()
-    } catch (error) {
-      message.error('Something went wrong. Please try again.')
+      // Prepare template parameters for INBOUND template
+      const templateParams = {
+        name: values.name,
+        time: new Date().toLocaleString('en-US', {
+          timeZone: 'Asia/Jakarta',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        message_type: 'Contact Form Message',
+        details: `📧 Contact Information:
+• Name: ${values.name}
+• Email: ${values.email}
+• Phone: ${values.phone || 'Not provided'}
+• Company: ${values.company}
+• Industry: ${values.industry}`,
+        message: values.message,
+        to_email: 'industrix.idn@gmail.com',
+        reply_to: values.email
+      }
+      
+      console.log('Contact form template parameters:', templateParams)
+      
+      // Send email using EmailJS
+      const result = await emailjs.send(serviceId, inboundTemplateId, templateParams)
+      
+      console.log('Contact form EmailJS result:', result)
+      
+      if (result.status === 200) {
+        // Send confirmation email to the user using OUTBOUND template
+        const outboundTemplateId = 'template_mu9wwrp' // OUTBOUND template for confirmation emails
+        
+        // Use OUTBOUND template parameters for contact form confirmation
+        const confirmationParams = {
+            // Comprehensive recipient field attempts - try every possible variation
+            to_email: values.email,
+            user_email: values.email,
+            email: values.email,
+            recipient_email: values.email,
+            send_to: values.email,
+            customer_email: values.email,
+            client_email: values.email,
+            contact_email: values.email,
+            user_mail: values.email,
+            to_mail: values.email,
+            destination_email: values.email,
+            target_email: values.email,
+            // Standard EmailJS parameters
+            to_name: values.name,
+            from_name: 'Industrix Team', 
+            from_email: 'industrix.idn@gmail.com',
+            reply_to: 'industrix.idn@gmail.com',
+            // Template variables
+            name: values.name,
+            subject: '✅ MESSAGE RECEIVED - Thank you for contacting Industrix',
+            subtitle: 'We have received your message and will respond within 24 hours.',
+            main_message: `Thank you for reaching out to Industrix!\n\nWe have successfully received your message and appreciate your interest in our industrial digital transformation solutions. Our team will review your inquiry and respond within 24 hours.`,
+            info_title: '📝 Your Message Details:',
+            info_details: `• Name: ${values.name}
+• Email: ${values.email}
+• Company: ${values.company}
+• Industry: ${values.industry}
+• Message Type: Contact Form Inquiry`,
+            call_to_action: '📞 For urgent matters, you can also reach us directly at industrix.idn@gmail.com.',
+            closing_message: 'We look forward to discussing how Industrix can help transform your industrial operations.',
+            footer_note: 'This is an automated confirmation of your contact form submission.'
+          }
+
+        try {
+          // Send confirmation email to user
+          console.log('Attempting to send outbound confirmation email...')
+          console.log('Outbound template ID:', outboundTemplateId)
+          console.log('Confirmation params:', JSON.stringify(confirmationParams, null, 2))
+          
+          let outboundResult
+          // Try using EmailJS sendForm method as an alternative approach
+          try {
+            outboundResult = await emailjs.send(serviceId, outboundTemplateId, confirmationParams)
+            console.log('Standard send method result:', outboundResult)
+          } catch (standardError: any) {
+            console.warn('Standard send failed, trying with manual "to" field override:', standardError?.text)
+            
+            // Alternative approach: try overriding the "to" field directly in the service call
+            const alternativeParams = {
+              ...confirmationParams,
+              // Override with direct EmailJS "to" parameter
+              to: values.email,
+              // Try service-level recipient override
+              'service_recipient': values.email,
+              'template_recipient': values.email
+            }
+            
+            console.log('Trying alternative approach with "to" field override...')
+            outboundResult = await emailjs.send(serviceId, outboundTemplateId, alternativeParams)
+            console.log('Alternative method result:', outboundResult)
+          }
+          console.log('Final outbound EmailJS result:', outboundResult)
+          console.log('Confirmation email sent to user using OUTBOUND template')
+        } catch (error: any) {
+          console.error('Confirmation email failed:', error)
+          console.error('Full error object:', JSON.stringify(error, Object.getOwnPropertyNames(error), 2))
+          console.error('Error details:', {
+            status: error?.status,
+            text: error?.text,
+            message: error?.message,
+            name: error?.name,
+            stack: error?.stack,
+            response: error?.response,
+            responseText: error?.responseText
+          })
+          console.error('EmailJS service and template info:', {
+            serviceId,
+            outboundTemplateId,
+            confirmationParamsKeys: Object.keys(confirmationParams)
+          })
+          // Don't throw error - main contact form was successful
+        }
+
+        message.success('Thank you for your message! Please check your email for confirmation. We\'ll get back to you within 24 hours.')
+        form.resetFields()
+      } else {
+        throw new Error(`EmailJS returned status: ${result.status}`)
+      }
+      
+    } catch (error: any) {
+      console.error('Contact form submission failed:', error)
+      
+      let errorMessage = 'Something went wrong. Please try again or contact us directly.'
+      
+      if (error?.text) {
+        errorMessage = `Submission failed: ${error.text}`
+      } else if (error?.message) {
+        errorMessage = `Submission failed: ${error.message}`
+      }
+      
+      message.error(errorMessage)
     } finally {
       setLoading(false)
     }
@@ -53,14 +191,8 @@ export default function ContactSection() {
     {
       icon: <MailOutlined />,
       title: 'Email',
-      details: 'info@industrix.id',
-      action: 'mailto:info@industrix.id'
-    },
-    {
-      icon: <PhoneOutlined />,
-      title: 'Phone',
-      details: '+62 21 1234 5678',
-      action: 'tel:+622112345678'
+      details: 'industrix.idn@gmail.com',
+      action: 'mailto:industrix.idn@gmail.com'
     },
     {
       icon: <EnvironmentOutlined />,
@@ -95,7 +227,7 @@ export default function ContactSection() {
             maxWidth: '800px',
             margin: '0 auto',
             lineHeight: 1.7,
-            color: '#64748b'
+            opacity: 0.7
           }}>
             Ready to transform your industrial operations? Contact us today to discuss your 
             digital transformation needs and discover how Industrix can help.
@@ -113,7 +245,7 @@ export default function ContactSection() {
               <Paragraph style={{ 
                 fontSize: '16px',
                 lineHeight: 1.6,
-                color: '#6b7280',
+                opacity: 0.7,
                 marginBottom: '32px'
               }}>
                 Have questions about our solutions or want to schedule a consultation? 
@@ -159,7 +291,7 @@ export default function ContactSection() {
                         </Title>
                         <Paragraph style={{ 
                           margin: 0,
-                          color: '#6b7280',
+                          opacity: 0.7,
                           fontSize: '14px'
                         }}>
                           {info.details}
@@ -171,7 +303,7 @@ export default function ContactSection() {
               </Space>
             </div>
 
-            {/* Social Links */}
+            {/* Social Links
             <Card 
               style={{
                 borderRadius: '16px',
@@ -185,7 +317,7 @@ export default function ContactSection() {
                 transition: 'all 0.3s ease'
               }}
             >
-              <Title level={4} style={{ marginBottom: '16px' }}>
+              {/* <Title level={4} style={{ marginBottom: '16px' }}>
                 Follow Us
               </Title>
               <Space size="large">
@@ -208,7 +340,7 @@ export default function ContactSection() {
                   style={{ color: '#1079FF' }}
                 />
               </Space>
-            </Card>
+             </Card> */}
             </div>
           </Col>
 
@@ -231,8 +363,7 @@ export default function ContactSection() {
               <Title level={3} style={{ 
                 marginBottom: '32px',
                 fontSize: '28px',
-                fontWeight: 700,
-                color: '#1e293b'
+                fontWeight: 700
               }}>
                 Send us a Message
               </Title>
@@ -271,6 +402,16 @@ export default function ContactSection() {
                     </Form.Item>
                   </Col>
                 </Row>
+
+                <Form.Item
+                  name="phone"
+                  label="Phone Number (Optional)"
+                >
+                  <Input 
+                    placeholder="+62 xxx xxx xxxx"
+                    style={{ borderRadius: '8px' }}
+                  />
+                </Form.Item>
 
                 <Row gutter={[24, 0]}>
                   <Col xs={24} md={12}>
@@ -341,65 +482,6 @@ export default function ContactSection() {
             </div>
           </Col>
         </Row>
-
-        {/* Call to Action */}
-        <Card 
-          style={{
-            borderRadius: '16px',
-            border: 'none',
-            background: 'linear-gradient(135deg, #1079FF 0%, #29C5FF 100%)',
-            color: 'white',
-            textAlign: 'center',
-            padding: '48px',
-            marginTop: '64px'
-          }}
-        >
-          <CheckCircleOutlined style={{ fontSize: '48px', marginBottom: '24px' }} />
-          <Title level={2} style={{ color: 'white', marginBottom: '16px' }}>
-            Ready to Get Started?
-          </Title>
-          <Paragraph style={{ 
-            color: 'white', 
-            fontSize: '18px', 
-            marginBottom: '32px',
-            opacity: 0.9,
-            maxWidth: '600px',
-            margin: '0 auto 32px'
-          }}>
-            Join leading Indonesian industries who have already transformed their operations 
-            with Industrix. Let&apos;s discuss how we can help you achieve your digital transformation goals.
-          </Paragraph>
-          <Space size="large">
-            <Button 
-              size="large"
-              style={{
-                background: 'white',
-                color: '#1079FF',
-                border: 'none',
-                fontWeight: 600,
-                height: '48px',
-                paddingLeft: '32px',
-                paddingRight: '32px'
-              }}
-            >
-              Schedule Consultation
-            </Button>
-            <Button 
-              size="large"
-              style={{
-                background: 'transparent',
-                color: 'white',
-                border: '2px solid white',
-                fontWeight: 600,
-                height: '48px',
-                paddingLeft: '32px',
-                paddingRight: '32px'
-              }}
-            >
-              Download Brochure
-            </Button>
-          </Space>
-        </Card>
       </div>
     </section>
   )

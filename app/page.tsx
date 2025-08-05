@@ -3,6 +3,7 @@
 import React from 'react'
 import { Layout } from 'antd'
 import HeroSection from '@/components/HeroSection'
+import CaseStudiesSection from '@/components/ProjectsSection'
 import SolutionsSection from '@/components/SolutionsSection'
 import AboutSection from '@/components/AboutSection'
 import ContactSection from '@/components/ContactSection'
@@ -19,11 +20,14 @@ export default function Home() {
         <div id="home">
           <HeroSection />
         </div>
+        <div id="about">
+          <AboutSection />
+        </div>
         <div id="solutions">
           <SolutionsSection />
         </div>
-        <div id="about">
-          <AboutSection />
+        <div id="case-studies">
+          <CaseStudiesSection />
         </div>
         <div id="contact">
           <ContactSection />

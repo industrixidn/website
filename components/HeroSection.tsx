@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Row, Col, Button, Space, Card, Typography } from 'antd'
-import { RocketOutlined, ThunderboltOutlined, CloudOutlined, CheckCircleOutlined } from '@ant-design/icons'
+import { RocketOutlined, CloudOutlined, CheckCircleOutlined } from '@ant-design/icons'
 import Image from 'next/image'
 import { useTheme } from '../app/theme/ThemeProvider'
 
@@ -12,7 +12,7 @@ export default function HeroSection() {
   const { isDarkMode } = useTheme()
   
   return (
-    <section className="hero-section" style={{ paddingTop: '80px' }}>
+    <section className="hero-section" style={{ paddingTop: '120px' }}>
       <div className="hero-bg-pattern"></div>
       
       <div style={{ maxWidth: '1200px', width: '100%', padding: '0 24px', position: 'relative', zIndex: 1 }}>
@@ -20,12 +20,14 @@ export default function HeroSection() {
           <Col xs={24}>
             <div style={{ textAlign: 'center' }}>
               {/* Logo with Enhanced Styling */}
-              <div style={{ marginBottom: '48px' }} className="animate-fadeInScale">
+              <div style={{ marginBottom: '32px' }} className="animate-fadeInScale">
                 <div style={{ 
                   display: 'inline-block',
-                  padding: '32px',
-                  background: 'linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7))',
-                  borderRadius: '24px',
+                  padding: '20px',
+                  background: isDarkMode 
+                    ? 'linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7))'
+                    : 'linear-gradient(145deg, rgba(30,41,59,0.9), rgba(15,23,42,0.7))',
+                  borderRadius: '16px',
                   boxShadow: 'var(--shadow-strong)',
                   transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                   border: '1px solid rgba(16, 121, 255, 0.1)',
@@ -41,15 +43,15 @@ export default function HeroSection() {
                     right: -2,
                     bottom: -2,
                     background: 'var(--industrix-gradient)',
-                    borderRadius: '26px',
+                    borderRadius: '18px',
                     zIndex: -1,
                     opacity: 0.1
                   }}></div>
                   <Image
                     src="/Logo.svg"
                     alt="Industrix Logo"
-                    width={80}
-                    height={80}
+                    width={50}
+                    height={50}
                     style={{ display: 'block', filter: 'drop-shadow(0 4px 8px rgba(16, 121, 255, 0.2))' }}
                   />
                 </div>
@@ -58,13 +60,17 @@ export default function HeroSection() {
               {/* Main Heading */}
               <div className="animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
                 <Title level={1} style={{ 
-                  fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+                  fontSize: 'clamp(1.8rem, 4.5vw, 3.2rem)',
                   fontWeight: 900,
-                  marginBottom: '32px',
+                  marginBottom: '24px',
                   lineHeight: 1.1,
                   textShadow: '0 4px 20px rgba(16, 121, 255, 0.1)'
                 }}>
-                  Transform Your{' '}
+                  <span className="animate-glow" style={{
+                    animation: 'textGlow 3s ease-in-out infinite alternate',
+                    textShadow: '0 0 20px rgba(16, 121, 255, 0.3)',
+                    color: isDarkMode ? '#ffffff' : '#1a202c'
+                  }}>Transform Your</span>{' '}
                   <span className="animate-gradient" style={{
                     background: 'linear-gradient(-45deg, #1079FF, #29C5FF, #F62A3A, #F85B62)',
                     backgroundSize: '400% 400%',
@@ -80,36 +86,36 @@ export default function HeroSection() {
               {/* Subheading */}
               <div className="animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
                 <Paragraph style={{ 
-                  fontSize: 'clamp(1.1rem, 2vw, 1.5rem)',
-                  marginBottom: '48px',
-                  maxWidth: '800px',
+                  fontSize: 'clamp(0.95rem, 1.6vw, 1.25rem)',
+                  marginBottom: '32px',
+                  maxWidth: '900px',
                   marginLeft: 'auto',
                   marginRight: 'auto',
-                  lineHeight: 1.7,
-                  color: '#475569',
+                  lineHeight: 1.6,
+                  color: isDarkMode ? '#d1d5db' : '#374151',
                   textShadow: '0 2px 4px rgba(0,0,0,0.02)'
                 }}>
-                  Gain <strong style={{ color: '#1079FF', fontWeight: 700 }}>complete visibility</strong> and{' '}
-                  <strong style={{ color: '#1079FF', fontWeight: 700 }}>control</strong> over your industrial processes with our integrated 
-                  digital solutions. From equipment tracking to fuel monitoring, we help Indonesian 
-                  industries embrace the future of smart operations.
+                  We&apos;re building the <strong style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800 }}>next-generation digital infrastructure</strong> that powers <strong style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800 }}>Indonesia&apos;s industrial revolution</strong>. Our cutting-edge platform <strong style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800 }}>delivers unparalleled operational intelligence and autonomous control</strong> across <strong style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800 }}>manufacturing, logistics, and complex industrial ecosystems</strong>.
+                  <br /><br />
+                  <span style={{ fontSize: '0.9rem', fontStyle: 'italic', color: isDarkMode ? '#d1d5db' : '#374151', fontWeight: 600 }}> ✨ Transcending traditional monitoring to architect truly intelligent, self-optimizing operations ✨</span>
                 </Paragraph>
               </div>
               
               {/* CTA Buttons */}
-              <div className="animate-fadeInUp" style={{ animationDelay: '0.6s', marginBottom: '64px' }}>
-                <Space size="large" wrap>
+              <div className="animate-fadeInUp" style={{ animationDelay: '0.6s', marginBottom: '48px' }}>
+                <Space size={16} wrap>
                   <Button 
                     type="primary" 
                     size="large"
                     className="btn-gradient animate-glow"
+                    onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                     style={{ 
-                      height: '56px',
-                      paddingLeft: '40px',
-                      paddingRight: '40px',
-                      fontSize: '16px',
+                      height: '48px',
+                      paddingLeft: '32px',
+                      paddingRight: '32px',
+                      fontSize: '14px',
                       fontWeight: 700,
-                      borderRadius: '16px',
+                      borderRadius: '12px',
                       border: 'none',
                       textTransform: 'uppercase',
                       letterSpacing: '0.5px'
@@ -120,13 +126,14 @@ export default function HeroSection() {
                   <Button 
                     size="large"
                     className="btn-outline"
+                    onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
                     style={{ 
-                      height: '56px',
-                      paddingLeft: '40px',
-                      paddingRight: '40px',
-                      fontSize: '16px',
+                      height: '48px',
+                      paddingLeft: '32px',
+                      paddingRight: '32px',
+                      fontSize: '14px',
                       fontWeight: 700,
-                      borderRadius: '16px',
+                      borderRadius: '12px',
                       borderWidth: '2px',
                       textTransform: 'uppercase',
                       letterSpacing: '0.5px',
@@ -143,16 +150,16 @@ export default function HeroSection() {
         </Row>
         
         {/* Feature Cards */}
-        <Row gutter={[32, 32]} style={{ marginBottom: '64px' }}>
-          <Col xs={24} md={8}>
+        <Row gutter={[24, 24]} style={{ marginBottom: '48px' }}>
+          <Col xs={24} md={12}>
             <Card 
               className="feature-card"
               style={{ 
                 height: '100%',
                 textAlign: 'center',
                 border: 'none',
-                borderRadius: '16px',
-                padding: '16px',
+                borderRadius: '12px',
+                padding: '12px',
                 background: isDarkMode 
                   ? 'linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.7))'
                   : 'linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7))',
@@ -161,27 +168,35 @@ export default function HeroSection() {
               }}
               hoverable
             >
-              <div className="feature-icon">
+              <div className="feature-icon" style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: '0 auto 24px',
+                width: '80px',
+                height: '80px'
+              }}>
                 <RocketOutlined />
               </div>
-              <Title level={4} style={{ marginBottom: '16px' }}>
+              <Title level={4} style={{ marginBottom: '12px', fontSize: '1.1rem' }}>
                 Real-Time Monitoring
               </Title>
-              <Paragraph style={{ fontSize: '16px', lineHeight: 1.6 }}>
-                Track equipment performance, fuel consumption, and operational metrics in real-time with our advanced dashboard
+              <Paragraph style={{ fontSize: '14px', lineHeight: 1.5 }}>
+                Track equipment performance, resource utilization, and operational metrics in real-time with our advanced dashboard
               </Paragraph>
             </Card>
           </Col>
           
-          <Col xs={24} md={8}>
+          
+          <Col xs={24} md={12}>
             <Card 
               className="feature-card"
               style={{ 
                 height: '100%',
                 textAlign: 'center',
                 border: 'none',
-                borderRadius: '16px',
-                padding: '16px',
+                borderRadius: '12px',
+                padding: '12px',
                 background: isDarkMode 
                   ? 'linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.7))'
                   : 'linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7))',
@@ -190,42 +205,20 @@ export default function HeroSection() {
               }}
               hoverable
             >
-              <div className="feature-icon feature-icon-red">
-                <ThunderboltOutlined />
-              </div>
-              <Title level={4} style={{ marginBottom: '16px' }}>
-                Smart Integration
-              </Title>
-              <Paragraph style={{ fontSize: '16px', lineHeight: 1.6 }}>
-                Seamlessly connect with your existing ERP systems, hardware, and workflows without disrupting operations
-              </Paragraph>
-            </Card>
-          </Col>
-          
-          <Col xs={24} md={8}>
-            <Card 
-              className="feature-card"
-              style={{ 
-                height: '100%',
-                textAlign: 'center',
-                border: 'none',
-                borderRadius: '16px',
-                padding: '16px',
-                background: isDarkMode 
-                  ? 'linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.7))'
-                  : 'linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7))',
-                backdropFilter: 'blur(20px)',
-                transition: 'all 0.3s ease'
-              }}
-              hoverable
-            >
-              <div className="feature-icon">
+              <div className="feature-icon" style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: '0 auto 24px',
+                width: '80px',
+                height: '80px'
+              }}>
                 <CloudOutlined />
               </div>
-              <Title level={4} style={{ marginBottom: '16px' }}>
+              <Title level={4} style={{ marginBottom: '12px', fontSize: '1.1rem' }}>
                 Cloud-Based Platform
               </Title>
-              <Paragraph style={{ fontSize: '16px', lineHeight: 1.6 }}>
+              <Paragraph style={{ fontSize: '14px', lineHeight: 1.5 }}>
                 Access your data anywhere with enterprise-grade security and scalable cloud infrastructure
               </Paragraph>
             </Card>
@@ -235,12 +228,12 @@ export default function HeroSection() {
         {/* Trust Indicators */}
         <Card 
           style={{ 
-            borderRadius: '16px',
+            borderRadius: '12px',
             textAlign: 'center',
-            maxWidth: '900px',
-            margin: '0 auto 120px',
+            maxWidth: '800px',
+            margin: '0 auto 80px',
             border: 'none',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+            boxShadow: '0 6px 24px rgba(0, 0, 0, 0.08)',
             background: isDarkMode 
               ? 'linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.7))'
               : 'linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7))',
@@ -248,57 +241,12 @@ export default function HeroSection() {
             transition: 'all 0.3s ease'
           }}
         >
-          <div style={{ marginBottom: '32px' }}>
-            <CheckCircleOutlined style={{ color: '#1079FF', fontSize: '24px', marginRight: '8px' }} />
-            <Title level={4} style={{ display: 'inline', color: '#1079FF' }}>
+          <div>
+            <CheckCircleOutlined style={{ color: '#1079FF', fontSize: '20px', marginRight: '8px' }} />
+            <Title level={4} style={{ display: 'inline', color: '#1079FF', fontSize: '1.1rem' }}>
               Trusted by Indonesian Industries
             </Title>
           </div>
-          
-          <Row gutter={[64, 48]}>
-            <Col xs={24} sm={8}>
-              <div style={{ textAlign: 'center' }}>
-                <div className="feature-icon" style={{ 
-                  width: '64px', 
-                  height: '64px',
-                  background: 'linear-gradient(135deg, #10b981, #059669)',
-                  margin: '0 auto 16px'
-                }}>
-                  🌾
-                </div>
-                <Title level={4} style={{ marginBottom: '8px' }}>Agriculture</Title>
-                <Paragraph>Smart Farming Solutions</Paragraph>
-              </div>
-            </Col>
-            
-            <Col xs={24} sm={8}>
-              <div style={{ textAlign: 'center' }}>
-                <div className="feature-icon feature-icon-red" style={{ 
-                  width: '64px', 
-                  height: '64px',
-                  margin: '0 auto 16px'
-                }}>
-                  ⛏️
-                </div>
-                <Title level={4} style={{ marginBottom: '8px' }}>Mining</Title>
-                <Paragraph>Equipment Tracking</Paragraph>
-              </div>
-            </Col>
-            
-            <Col xs={24} sm={8}>
-              <div style={{ textAlign: 'center' }}>
-                <div className="feature-icon" style={{ 
-                  width: '64px', 
-                  height: '64px',
-                  margin: '0 auto 16px'
-                }}>
-                  🚚
-                </div>
-                <Title level={4} style={{ marginBottom: '8px' }}>Logistics</Title>
-                <Paragraph>Fleet Management</Paragraph>
-              </div>
-            </Col>
-          </Row>
         </Card>
       </div>
     </section>

@@ -1,14 +1,10 @@
 'use client'
 
 import React from 'react'
-import { Layout, Row, Col, Typography, Space, Button } from 'antd'
+import { Layout, Row, Col, Typography, Space } from 'antd'
 import { 
   MailOutlined, 
-  PhoneOutlined, 
-  EnvironmentOutlined,
-  LinkedinOutlined,
-  TwitterOutlined,
-  GithubOutlined
+  EnvironmentOutlined
 } from '@ant-design/icons'
 import Image from 'next/image'
 import { useTheme } from '../app/theme/ThemeProvider'
@@ -23,28 +19,28 @@ export default function Footer() {
 
   const footerLinks = {
     company: [
-      { label: 'About Us', href: '#about' },
-      { label: 'Our Team', href: '#team' },
-      { label: 'Careers', href: '#careers' },
-      { label: 'News', href: '#news' }
+      { label: 'About Us', href: '/#about' },
+      { label: 'Our Team', href: '/team' },
+      { label: 'Careers', href: '/careers' },
+      { label: 'News', href: '/#news' }
     ],
     solutions: [
-      { label: 'Real-Time Monitoring', href: '#solutions' },
-      { label: 'Smart Integration', href: '#solutions' },
-      { label: 'Cloud Platform', href: '#solutions' },
-      { label: 'Analytics', href: '#solutions' }
+      { label: 'Real-Time Monitoring', href: '/#solutions' },
+      { label: 'Smart Integration', href: '/#solutions' },
+      { label: 'Cloud Platform', href: '/#solutions' },
+      { label: 'Analytics', href: '/#solutions' }
     ],
     industries: [
-      { label: 'Agriculture', href: '#industries' },
-      { label: 'Mining', href: '#industries' },
-      { label: 'Logistics', href: '#industries' },
-      { label: 'Manufacturing', href: '#industries' }
+      { label: 'Agriculture', href: '/#industries' },
+      { label: 'Mining', href: '/#industries' },
+      { label: 'Logistics', href: '/#industries' },
+      { label: 'Manufacturing', href: '/#industries' }
     ],
     support: [
-      { label: 'Contact Us', href: '#contact' },
-      { label: 'Documentation', href: '#docs' },
-      { label: 'Support Center', href: '#support' },
-      { label: 'Status', href: '#status' }
+      { label: 'Contact Us', href: '/#contact' },
+      { label: 'Documentation', href: '/#docs' },
+      { label: 'Support Center', href: '/#support' },
+      { label: 'Status', href: '/#status' }
     ]
   }
 
@@ -84,29 +80,9 @@ export default function Footer() {
               marginBottom: '24px'
             }}>
               Transform your industrial operations with smart digital solutions. 
-              Specializing in equipment tracking, fuel monitoring, and enterprise 
+              Specializing in equipment tracking, resource monitoring, and enterprise 
               integration for Indonesian industries.
             </Paragraph>
-            <Space>
-              <Button 
-                type="text" 
-                icon={<LinkedinOutlined />}
-                size="large"
-                style={{ color: '#1079FF' }}
-              />
-              <Button 
-                type="text" 
-                icon={<TwitterOutlined />}
-                size="large"
-                style={{ color: '#1079FF' }}
-              />
-              <Button 
-                type="text" 
-                icon={<GithubOutlined />}
-                size="large"
-                style={{ color: '#1079FF' }}
-              />
-            </Space>
           </Col>
 
           {/* Quick Links */}
@@ -165,13 +141,7 @@ export default function Footer() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <MailOutlined style={{ color: '#1079FF', fontSize: '16px' }} />
                 <Text style={{ color: '#a1a1aa', fontSize: '14px' }}>
-                  info@industrix.id
-                </Text>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <PhoneOutlined style={{ color: '#1079FF', fontSize: '16px' }} />
-                <Text style={{ color: '#a1a1aa', fontSize: '14px' }}>
-                  +62 21 1234 5678
+                  industrix.idn@gmail.com
                 </Text>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -200,7 +170,7 @@ export default function Footer() {
           </Text>
           <Space size="large">
             <a 
-              href="#privacy" 
+              href="/privacy" 
               style={{ 
                 color: '#a1a1aa', 
                 textDecoration: 'none',
@@ -210,7 +180,7 @@ export default function Footer() {
               Privacy Policy
             </a>
             <a 
-              href="#terms" 
+              href="/terms" 
               style={{ 
                 color: '#a1a1aa', 
                 textDecoration: 'none',
@@ -220,7 +190,7 @@ export default function Footer() {
               Terms of Service
             </a>
             <a 
-              href="#cookies" 
+              href="/cookies" 
               style={{ 
                 color: '#a1a1aa', 
                 textDecoration: 'none',

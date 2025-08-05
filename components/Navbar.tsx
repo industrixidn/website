@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Layout, Menu, Button, Switch, Space, Drawer } from 'antd'
 import { MenuOutlined, SunOutlined, MoonOutlined } from '@ant-design/icons'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useTheme } from '../app/theme/ThemeProvider'
 
 const { Header } = Layout
@@ -12,12 +13,13 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { isDarkMode, toggleTheme } = useTheme()
 
-  const menuItems = [
-    { key: 'home', label: 'Home', href: '#home' },
-    { key: 'solutions', label: 'Solutions', href: '#solutions' },
-    { key: 'industries', label: 'Industries', href: '#industries' },
-    { key: 'about', label: 'About', href: '#about' },
-    { key: 'contact', label: 'Contact', href: '#contact' },
+  const mobileMenuItems = [
+    { key: 'home', label: 'Home', href: '/', isExternal: true },
+    { key: 'about', label: 'About', href: '/#about', isExternal: true },
+    { key: 'solutions', label: 'Solutions', href: '/#solutions', isExternal: true },
+    { key: 'case-studies', label: 'Case Studies', href: '/#case-studies', isExternal: true },
+    { key: 'team', label: 'Meet Our Team', href: '/team', isExternal: true },
+    { key: 'careers', label: 'Careers', href: '/careers', isExternal: true },
   ]
 
   return (
@@ -27,7 +29,7 @@ export default function Navbar() {
         top: 0,
         width: '100%',
         zIndex: 1000,
-        padding: '0 32px',
+        padding: '0 16px',
         background: isDarkMode ? 'rgba(20, 20, 20, 0.95)' : 'rgba(255, 255, 255, 0.95)',
         backdropFilter: 'blur(20px)',
         borderBottom: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(16, 121, 255, 0.1)'}`,
@@ -42,95 +44,63 @@ export default function Navbar() {
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center',
-        maxWidth: '1200px',
-        margin: '0 auto',
+        height: '100%',
         width: '100%'
       }}>
-        {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }} className="animate-slideInLeft">
-          <div style={{
-            padding: '8px',
-            borderRadius: '12px',
-            background: isDarkMode 
-              ? 'linear-gradient(145deg, rgba(16, 121, 255, 0.2), rgba(41, 197, 255, 0.1))'
-              : 'linear-gradient(145deg, rgba(16, 121, 255, 0.1), rgba(41, 197, 255, 0.05))',
-            transition: 'all 0.3s ease'
-          }}>
-            <Image
-              src="/Logo.svg"
-              alt="Industrix Logo"
-              width={40}
-              height={40}
-              style={{ display: 'block', filter: 'drop-shadow(0 2px 4px rgba(16, 121, 255, 0.3))' }}
-            />
+        {/* Logo - Clickable to go back to home */}
+        <Link href="/" style={{ textDecoration: 'none' }}>
+          <div 
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0px',
+              cursor: 'pointer',
+              padding: '8px',
+              borderRadius: '12px',
+              transition: 'all 0.3s ease'
+            }} 
+            className="animate-slideInLeft"
+            onMouseEnter={(e) => {
+              const target = e.currentTarget as HTMLElement
+              target.style.background = isDarkMode 
+                ? 'rgba(16, 121, 255, 0.1)' 
+                : 'rgba(16, 121, 255, 0.05)'
+              target.style.transform = 'scale(1.02)'
+            }}
+            onMouseLeave={(e) => {
+              const target = e.currentTarget as HTMLElement
+              target.style.background = 'transparent'
+              target.style.transform = 'scale(1)'
+            }}
+          >
+            <div style={{
+              padding: '8px'
+            }}>
+              <Image
+                src="/Logo.svg"
+                alt="Industrix Logo"
+                width={40}
+                height={40}
+                style={{ display: 'block', filter: 'drop-shadow(0 2px 4px rgba(16, 121, 255, 0.3))' }}
+              />
+            </div>
+            <span style={{ 
+              fontSize: '24px', 
+              fontWeight: 800,
+              background: 'var(--industrix-gradient)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              letterSpacing: '-0.5px'
+            }}>
+              Industrix
+            </span>
           </div>
-          <span style={{ 
-            fontSize: '24px', 
-            fontWeight: 800,
-            background: 'var(--industrix-gradient)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            letterSpacing: '-0.5px'
-          }}>
-            Industrix
-          </span>
-        </div>
+        </Link>
 
-        {/* Desktop Menu */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }} className="animate-slideInRight">
-          <div className="desktop-menu">
-            <Menu
-              mode="horizontal"
-              style={{
-                background: 'transparent',
-                border: 'none',
-                fontSize: '16px',
-                fontWeight: 600,
-              }}
-              items={menuItems.map(item => ({
-                key: item.key,
-                label: (
-                  <a 
-                    href={item.href}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      const element = document.querySelector(item.href)
-                      element?.scrollIntoView({ behavior: 'smooth' })
-                    }}
-                    style={{ 
-                      color: isDarkMode ? '#fff' : '#475569',
-                      textDecoration: 'none',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      padding: '8px 16px',
-                      borderRadius: '8px',
-                      position: 'relative',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px',
-                      fontSize: '14px'
-                    }}
-                    onMouseEnter={(e) => {
-                      const target = e.target as HTMLElement
-                      target.style.color = '#1079FF'
-                      target.style.background = isDarkMode 
-                        ? 'rgba(16, 121, 255, 0.1)' 
-                        : 'rgba(16, 121, 255, 0.05)'
-                    }}
-                    onMouseLeave={(e) => {
-                      const target = e.target as HTMLElement
-                      target.style.color = isDarkMode ? '#fff' : '#475569'
-                      target.style.background = 'transparent'
-                    }}
-                  >
-                    {item.label}
-                  </a>
-                ),
-              }))}
-            />
-          </div>
-
-          {/* Theme Toggle & Contact Button */}
-          <Space>
+        {/* Theme Toggle & Contact Button */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(16px, 4vw, 32px)' }} className="animate-slideInRight">
+          <Space size="large">
             <Switch
               checked={isDarkMode}
               onChange={toggleTheme}
@@ -144,6 +114,9 @@ export default function Navbar() {
             <Button 
               type="primary"
               className="btn-gradient desktop-only"
+              onClick={() => {
+                window.location.href = '/#contact'
+              }}
               style={{
                 borderRadius: '12px',
                 height: '44px',
@@ -166,7 +139,10 @@ export default function Navbar() {
               onClick={() => setIsMenuOpen(true)}
               className="mobile-only"
               style={{
-                color: isDarkMode ? '#fff' : '#000'
+                color: isDarkMode ? '#fff' : '#000',
+                background: 'transparent',
+                border: 'none',
+                fontSize: '18px'
               }}
             />
           </Space>
@@ -191,22 +167,33 @@ export default function Navbar() {
             border: 'none',
             fontSize: '16px',
           }}
-          items={menuItems.map(item => ({
+          items={mobileMenuItems.map(item => ({
             key: item.key,
             label: (
               <a 
                 href={item.href}
                 onClick={(e) => {
-                  e.preventDefault()
-                  const element = document.querySelector(item.href)
-                  element?.scrollIntoView({ behavior: 'smooth' })
-                  setIsMenuOpen(false)
+                  if (item.isExternal) {
+                    // For external links like /careers, let the default behavior happen
+                    setIsMenuOpen(false)
+                  } else {
+                    // For internal scroll links, prevent default and scroll
+                    e.preventDefault()
+                    const element = document.querySelector(item.href)
+                    element?.scrollIntoView({ behavior: 'smooth' })
+                    setIsMenuOpen(false)
+                  }
                 }}
                 style={{ 
                   color: isDarkMode ? '#fff' : '#000',
                   textDecoration: 'none',
-                  display: 'block',
-                  padding: '12px 0'
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  padding: '12px 16px',
+                  fontWeight: 400,
+                  width: '100%',
+                  minHeight: '44px'
                 }}
               >
                 {item.label}
@@ -221,7 +208,10 @@ export default function Navbar() {
             className="btn-gradient"
             block
             size="large"
-            onClick={() => setIsMenuOpen(false)}
+            onClick={() => {
+              window.location.href = '/#contact'
+              setIsMenuOpen(false)
+            }}
           >
             Contact Us
           </Button>

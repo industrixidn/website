@@ -1,15 +1,14 @@
 'use client'
 
 import React from 'react'
-import { Row, Col, Card, Typography, Button, Space } from 'antd'
+import { Row, Col, Card, Typography } from 'antd'
 import { 
   MonitorOutlined, 
   ThunderboltOutlined, 
   CloudOutlined, 
   BarChartOutlined,
   SafetyOutlined,
-  SettingOutlined,
-  ArrowRightOutlined
+  SettingOutlined
 } from '@ant-design/icons'
 import { useTheme } from '../app/theme/ThemeProvider'
 
@@ -19,10 +18,10 @@ const solutions = [
   {
     icon: <MonitorOutlined />,
     title: 'Real-Time Monitoring',
-    description: 'Track equipment performance, fuel consumption, and operational metrics in real-time with our advanced IoT dashboard.',
+    description: 'Track equipment performance, resource utilization, and operational metrics in real-time with our advanced IoT dashboard.',
     features: [
       'Live equipment status tracking',
-      'Fuel consumption analytics',
+      'Resource utilization analytics',
       'Performance metrics monitoring',
       'Automated alerts and notifications'
     ],
@@ -94,13 +93,14 @@ export default function SolutionsSection() {
   const { isDarkMode } = useTheme()
   
   return (
-    <section id="solutions" className="section-padding" style={{ 
+    <section id="solutions" style={{ 
       background: isDarkMode ? '#0f172a' : '#f8fafc', 
-      paddingTop: '120px',
+      paddingTop: '60px',
+      paddingBottom: '40px',
       transition: 'background-color 0.3s ease'
     }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-        <div style={{ textAlign: 'center', marginBottom: '80px' }} className="animate-fadeInUp">
+        <div style={{ textAlign: 'center', marginBottom: '48px' }} className="animate-fadeInUp">
           <Title level={2} className="section-title" style={{ 
             fontSize: 'clamp(2rem, 5vw, 3.5rem)',
             marginBottom: '24px',
@@ -126,7 +126,7 @@ export default function SolutionsSection() {
           </Paragraph>
         </div>
 
-        <Row gutter={[40, 40]} style={{ marginBottom: '80px' }}>
+        <Row gutter={[24, 32]} style={{ marginBottom: '48px' }}>
           {solutions.map((solution, index) => (
             <Col xs={24} md={12} lg={8} key={index}>
               <div 
@@ -142,7 +142,7 @@ export default function SolutionsSection() {
                   style={{
                     height: '100%',
                     border: 'none',
-                    borderRadius: '24px',
+                    borderRadius: '16px',
                     overflow: 'hidden',
                     background: isDarkMode 
                       ? 'linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.7))'
@@ -153,16 +153,16 @@ export default function SolutionsSection() {
                   }}
                   hoverable
                   cover={
-                    <div style={{ padding: '40px 32px 0', position: 'relative' }}>
+                    <div style={{ padding: '24px 24px 0', position: 'relative' }}>
                       <div 
                         className="feature-icon animate-float"
                         style={{
                           background: solution.gradient,
-                          margin: '0 auto 32px',
-                          width: '80px',
-                          height: '80px',
-                          fontSize: '32px',
-                          borderRadius: '20px',
+                          margin: '0 auto 20px',
+                          width: '60px',
+                          height: '60px',
+                          fontSize: '24px',
+                          borderRadius: '16px',
                           boxShadow: 'var(--shadow-soft)',
                           animationDelay: `${index * 0.2}s`
                         }}
@@ -172,35 +172,35 @@ export default function SolutionsSection() {
                     </div>
                   }
                 >
-                <div style={{ padding: '0 24px 32px' }}>
+                <div style={{ padding: '0 20px 24px' }}>
                   <Title level={4} style={{ 
-                    marginBottom: '20px', 
+                    marginBottom: '16px', 
                     textAlign: 'center',
-                    fontSize: '20px',
+                    fontSize: '18px',
                     fontWeight: 700,
                     color: isDarkMode ? '#f1f5f9' : '#1e293b'
                   }}>
                     {solution.title}
                   </Title>
                   <Paragraph style={{ 
-                    fontSize: '15px', 
-                    lineHeight: 1.7, 
-                    marginBottom: '28px',
+                    fontSize: '14px', 
+                    lineHeight: 1.6, 
+                    marginBottom: '20px',
                     textAlign: 'center',
                     color: isDarkMode ? '#cbd5e1' : '#64748b'
                   }}>
                     {solution.description}
                   </Paragraph>
                   
-                  <div style={{ marginBottom: '32px' }}>
+                  <div style={{ marginBottom: '8px' }}>
                     {solution.features.map((feature, idx) => (
                       <div key={idx} style={{ 
                         display: 'flex', 
                         alignItems: 'center', 
-                        marginBottom: '12px',
-                        fontSize: '14px',
+                        marginBottom: '8px',
+                        fontSize: '13px',
                         color: isDarkMode ? '#e2e8f0' : '#475569',
-                        padding: '8px 0'
+                        padding: '4px 0'
                       }}>
                         <div style={{ 
                           width: '8px', 
@@ -215,95 +215,12 @@ export default function SolutionsSection() {
                     ))}
                   </div>
                   
-                  <Button 
-                    type="text" 
-                    style={{ 
-                      padding: '8px 16px',
-                      height: 'auto',
-                      color: '#1079FF',
-                      fontWeight: 700,
-                      borderRadius: '12px',
-                      fontSize: '14px',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px',
-                      transition: 'all 0.3s ease'
-                    }}
-                    icon={<ArrowRightOutlined />}
-                    iconPosition="end"
-                    onMouseEnter={(e) => {
-                      const target = e.target as HTMLElement
-                      target.style.background = 'rgba(16, 121, 255, 0.1)'
-                      target.style.transform = 'translateX(4px)'
-                    }}
-                    onMouseLeave={(e) => {
-                      const target = e.target as HTMLElement
-                      target.style.background = 'transparent'
-                      target.style.transform = 'translateX(0)'
-                    }}
-                  >
-                    Learn More
-                  </Button>
                 </div>
               </Card>
               </div>
             </Col>
           ))}
         </Row>
-
-        {/* Partnership Highlight */}
-        <Card 
-          style={{
-            borderRadius: '16px',
-            border: 'none',
-            background: 'linear-gradient(135deg, #1079FF 0%, #29C5FF 100%)',
-            color: 'white',
-            textAlign: 'center',
-            padding: '32px'
-          }}
-        >
-          <Title level={3} style={{ color: 'white', marginBottom: '16px' }}>
-            Proven Partnership
-          </Title>
-          <Paragraph style={{ 
-            color: 'white', 
-            fontSize: '18px', 
-            marginBottom: '32px',
-            opacity: 0.9
-          }}>
-            We&apos;re proud to partner with <strong>PT. Cahaya Bumi Rezeki</strong> in delivering 
-            advanced fuel monitoring solutions that optimize operational efficiency and reduce costs.
-          </Paragraph>
-          <Space size="large">
-            <Button 
-              size="large"
-              style={{
-                background: 'white',
-                color: '#1079FF',
-                border: 'none',
-                fontWeight: 600,
-                height: '48px',
-                paddingLeft: '24px',
-                paddingRight: '24px'
-              }}
-            >
-              View Case Study
-            </Button>
-            <Button 
-              size="large"
-              style={{
-                background: 'transparent',
-                color: 'white',
-                border: '2px solid white',
-                fontWeight: 600,
-                height: '48px',
-                paddingLeft: '24px',
-                paddingRight: '24px'
-              }}
-            >
-              Partner With Us
-            </Button>
-          </Space>
-        </Card>
       </div>
     </section>
   )
